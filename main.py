@@ -79,7 +79,7 @@ def push_plus(title, content):
         "token": PUSH_PLUS_TOKEN,
         "title": title,
         "content": content,
-        "template": "html",
+        "template": "txt",
         "channel": "wechat"
     }
     try:
@@ -240,19 +240,10 @@ def push_to_push_plus(exec_results, summary):
             if time_bj.hour != int(PUSH_PLUS_HOUR):
                 print(f"当前设置push_plus推送整点为：{PUSH_PLUS_HOUR}, 当前整点为：{time_bj.hour}，跳过推送")
                 return
-        html = f'<div>{summary}</div>'
+        txt = summary
         if len(exec_results) >= PUSH_PLUS_MAX:
-            html += '<div>账号数量过多，详细情况请前往github actions中查看</div>'
-        else:
-            html += '<ul>'
-            for exec_result in exec_results:
-                success = exec_result['success']
-                if success is not None and success is True:
-                    html += f'<li><span>账号：{exec_result["user"]}</span>刷步数成功，接口返回：{exec_result["msg"]}</li>'
-                else:
-                    html += f'<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
-            html += '</ul>'
-        push_plus(f"{format_now()} 刷步数通知", html)
+            txt = '账号数量过多，详细情况请前往github actions中查看'
+        push_plus("刷步数通知", html)
 
 
 def run_single_account(total, idx, user_mi, passwd_mi):
@@ -300,9 +291,9 @@ def execute():
             push_results.append(result)
             if result['success'] is True:
                 success_count += 1
-        summary = f"\n执行账号总数{total}，成功：{success_count}，失败：{total - success_count}"
+        summary = f"成功：{success_count}，失败：{total - success_count}"
         print(summary)
-        push_to_push_plus(push_results, summary)
+        push_to_push_plus2(push_results, summary)
     else:
         print(f"账号数长度[{len(user_list)}]和密码数长度[{len(passwd_list)}]不匹配，跳过执行")
         exit(1)
