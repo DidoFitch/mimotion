@@ -242,8 +242,8 @@ def push_to_push_plus(exec_results, summary):
                 return
         txt = summary
         if len(exec_results) >= PUSH_PLUS_MAX:
-            txt = '账号数量过多，详细情况请前往github actions中查看'
-        push_plus("刷步数通知", html)
+            txt = '账号数量过多，详细情况请在actions中查看'
+        push_plus("刷步数通知", txt)
 
 
 def run_single_account(total, idx, user_mi, passwd_mi):
