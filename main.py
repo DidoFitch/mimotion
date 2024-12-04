@@ -293,7 +293,7 @@ def execute():
                 success_count += 1
         summary = f"成功：{success_count}，失败：{total - success_count}"
         print(summary)
-        push_to_push_plus2(push_results, summary)
+        push_to_push_plus(push_results, summary)
     else:
         print(f"账号数长度[{len(user_list)}]和密码数长度[{len(passwd_list)}]不匹配，跳过执行")
         exit(1)
